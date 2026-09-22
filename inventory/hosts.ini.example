@@ -1,0 +1,4 @@
+# Copia este archivo como hosts.ini y pon la IP/credenciales reales,
+# o mejor: ejecuta `terraform apply` en la carpeta raíz y genera solo.
+[azure_vm]
+<IP_PUBLICA> ansible_user=<USUARIO> ansible_ssh_pass=<CONTRASENA>

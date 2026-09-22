@@ -4,6 +4,7 @@
       - apt-transport-https
       - ca-certificates
       - curl
+      - gnupg
       - software-properties-common
     state: present
     update_cache: yes
@@ -15,7 +16,7 @@
 
 - name: Agregar el repositorio de Docker
   ansible.builtin.apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable
     state: present
 
 - name: Instalar Docker CE
@@ -23,3 +24,16 @@
     name: docker-ce
     state: present
     update_cache: yes
+
+# El módulo docker_container de Ansible necesita el SDK de Docker en Python
+- name: Instalar el SDK de Docker para Python
+  apt:
+    name: python3-docker
+    state: present
+
+# Para que el usuario normal pueda usar docker sin sudo
+- name: Agregar el usuario al grupo docker
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: yes
